@@ -1,231 +1,267 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Cute, minimal portfolio" />
-  <title>MY Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Cute Portfolio</title>
 
   <!-- Fonts -->
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fascinate&family=VT323&display=swap');
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=VT323&family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
   <style>
-    /* ================
-       CUTE + MODERN PRESET
-    ================= */
-
+    /* Base Styles */
     :root {
       --teal: #008B8B;
       --lavender: #D8BFD8;
-      --offwhite: #f7f7f7;
-      --dark: #2b2b2b;
-      --link-hover: #5f9ea0;
-      --accent-bg: #ffffffcc;
+      --light-bg: #f7f7f7;
+      --dark-bg: #1a1a1a;
+      --max-width: 750px;
     }
 
-    /* Basic Reset & Base */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    html, body {
+    body {
       font-family: 'VT323', monospace;
-      background: var(--offwhite);
-      color: var(--dark);
+      background-color: var(--dark-bg);
+      color: var(--light-bg);
       padding: 2rem 1rem;
-      text-align: center;
+      display: flex;
+      justify-content: center;
     }
 
-    h1, h2, h3 {
-      font-family: 'Fascinate', cursive;
-      color: var(--teal);
-      margin: 1rem 0;
-    }
-
-    h1 {
-      font-size: 3rem;
-      animation: titlePop 3s ease-in-out infinite;
-    }
-
-    h2 {
-      font-size: 2rem;
-    }
-
-    h3 {
-      font-size: 1.4rem;
-      color: var(--teal);
-    }
-
-    /* Title Animation */
-    @keyframes titlePop {
-      0%, 100% {
-        transform: scale(1);
-        text-shadow: 0 0 2px var(--lavender);
-      }
-      50% {
-        transform: scale(1.04);
-        text-shadow: 0 0 12px var(--teal);
-      }
-    }
-
-    /* Layout Containers */
     .container {
-      background: var(--accent-bg);
-      border-radius: 16px;
-      padding: 2rem;
-      max-width: 800px;
-      margin: 2rem auto;
-      box-shadow: 0 4px 20px rgba(0, 139, 139, 0.1);
+      max-width: var(--max-width);
+      width: 100%;
     }
 
-    .portrait {
-      width: 100%;
-      max-width: 400px;
-      height: auto;
-      border-radius: 12px;
-      border: 4px solid var(--lavender);
-      margin-bottom: 1rem;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .sparkly-title {
+      font-family: 'Fascinate', cursive;
+      font-size: 2.5rem;
+      color: var(--lavender);
+      position: relative;
+      display: inline-block;
       transition: transform 0.3s ease;
     }
 
-    .portrait:hover {
-      transform: scale(1.02) rotate(-1deg);
+    .sparkly-title:hover {
+      transform: scale(1.05);
+      text-shadow: 0 0 10px var(--lavender);
+    }
+
+    h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--teal);
+      margin: 1rem 0 0.5rem;
     }
 
     p {
+      margin-bottom: 1rem;
       font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      border: 4px solid var(--teal);
+      border-radius: 8px;
       margin: 1rem 0;
     }
 
-    pre, code {
-      background: #111;
-      color: var(--lavender);
+    pre {
+      background: #2e2e2e;
+      color: #e0e0e0;
       padding: 1rem;
       border-radius: 10px;
-      font-size: 1.1rem;
       overflow-x: auto;
-      box-shadow: inset 0 0 10px #333;
       margin-top: 1rem;
     }
 
-    /* Footer & Nav */
     footer {
-      margin-top: 4rem;
+      margin-top: 2rem;
     }
 
-    .demo {
-      background: var(--lavender);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    nav ul {
+    ul {
       list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      padding: 0;
+      padding-left: 0;
     }
 
-    nav li {
-      background: white;
-      padding: 0.7rem 1.2rem;
-      border-radius: 14px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    li {
+      margin: 0.5rem 0;
     }
 
-    nav li:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-    }
-
-    nav a {
+    a {
+      color: var(--lavender);
       text-decoration: none;
-      color: var(--teal);
-      font-size: 1.1rem;
-      font-weight: bold;
       transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--teal);
+      text-shadow: 0 0 5px var(--teal);
+    }
+
+    /* Menu Button */
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    label {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .bar {
+      width: 30px;
+      height: 4px;
+      background-color: var(--lavender);
+      margin: 6px 0;
+      transition: 0.4s;
+      border-radius: 2px;
+    }
+
+    input:checked ~ .menu .menu-left {
+      transform: translateY(0);
+    }
+
+    input:checked ~ .menu .menu-right {
+      transform: translateX(0);
+    }
+
+    /* Menu Container */
+    .menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .menu-left, .menu-right {
+      transition: 0.5s ease;
+      pointer-events: auto;
+    }
+
+    .menu-left {
+      width: 40%;
+      background-color: var(--teal);
+      color: white;
+      padding: 2rem;
+      transform: translateY(-100%);
+    }
+
+    .menu-right {
+      width: 60%;
+      background-color: var(--lavender);
+      color: #000;
+      padding: 2rem;
+      transform: translateX(100%);
+    }
+
+    .menu-right ul {
+      padding-top: 4rem;
+    }
+
+    .menu-right a {
+      color: #000;
+      font-size: 1.5rem;
       position: relative;
+      display: inline-block;
     }
 
-    nav a::after {
-      content: "✨";
-      opacity: 0;
+    .menu-right a::before {
+      content: '';
       position: absolute;
-      right: -1.5rem;
-      transition: opacity 0.4s ease;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--teal);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
     }
 
-    nav a:hover {
-      color: var(--link-hover);
+    .menu-right a:hover::before {
+      transform: scaleX(1);
     }
 
-    nav a:hover::after {
-      opacity: 1;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2.4rem;
+    @media (max-width: 768px) {
+      .menu-left {
+        display: none;
       }
-      .container, .demo {
-        padding: 1.5rem;
-      }
-      nav ul {
-        flex-direction: column;
+
+      .menu-right {
+        width: 100%;
       }
     }
-
   </style>
 </head>
 
 <body>
+  <!-- Hamburger Menu -->
+  <input type="checkbox" id="myInput">
+  <label for="myInput">
+    <span class="bar top"></span>
+    <span class="bar middle"></span>
+    <span class="bar bottom"></span>
+  </label>
 
-  <header>
-    <h1>MY Portfolio</h1>
-  </header>
-
-  <section class="container">
-    <img class="portrait" src="portrait1.png" alt="a santorini sunset" />
-    <h2>Personal Summary</h2>
-    <h3>Here is a brief ABOUT ME section</h3>
-    <p>I like coding, sunsets, and pixels. This is my cute corner of the internet where I keep all my class work ✨</p>
-
-    <pre><code>
-    // sample code
-    let mood = "cute";
-    const vibe = "minimalist + animated";
-    </code></pre>
-  </section>
-
-  <footer>
-    <div class="demo">
-      <h2>Homework Links</h2>
-      <nav>
-        <ul>
-          <li><a href="readings.html">Readings & Reflections</a></li>
-          <li><a href="hw1.html">Homework #1</a></li>
-          <li><a href="hw2.html">Homework #2</a></li>
-          <li><a href="hw3.html">Homework #3</a></li>
-          <li><a href="hw4.html">Homework #4</a></li>
-          <li><a href="hw5.html">Homework #5</a></li>
-          <li><a href="hw6.html">Homework #6</a></li>
-          <li><a href="hw7.html">Homework #7</a></li>
-          <li><a href="hw8.html">Homework #8</a></li>
-          <li><a href="hw9.html">Homework #9</a></li>
-          <li><a href="hw10.html">Homework #10</a></li>
-        </ul>
-      </nav>
+  <div class="menu">
+    <div class="menu-left">
+      <p>Explore your creative assignments here!</p>
     </div>
-  </footer>
+    <div class="menu-right">
+      <ul>
+        <li><a href="readings.html">📘 Readings & Reflections</a></li>
+        <li><a href="hw1.html">Homework #1</a></li>
+        <li><a href="hw2.html">Homework #2</a></li>
+        <li><a href="hw3.html">Homework #3</a></li>
+        <li><a href="hw4.html">Homework #4</a></li>
+        <li><a href="hw5.html">Homework #5</a></li>
+        <li><a href="hw6.html">Homework #6</a></li>
+        <li><a href="hw7.html">Homework #7</a></li>
+        <li><a href="hw8.html">Homework #8</a></li>
+        <li><a href="hw9.html">Homework #9</a></li>
+        <li><a href="hw10.html">Homework #10</a></li>
+      </ul>
+    </div>
+  </div>
 
+  <!-- Main Content -->
+  <div class="container">
+    <header>
+      <h1 class="sparkly-title">✨ My Portfolio ✨</h1>
+    </header>
+
+    <section>
+      <h2>About Me</h2>
+      <p>Hi there! I'm building this site to showcase my creative journey through class assignments and web exploration.</p>
+
+      <img src="portrait1.png" alt="A Santorini Sunset" width="400" height="500">
+
+      <h3>Quick Summary</h3>
+      <p>I love colors, animation, and giving everything a nostalgic pixel twist 💖</p>
+    </section>
+
+    <footer>
+      <h2>More Coming Soon...</h2>
+      <p>Thanks for visiting! Use the menu button to check out my homework.</p>
+    </footer>
+  </div>
 </body>
 </html>
