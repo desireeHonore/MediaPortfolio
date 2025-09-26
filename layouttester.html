@@ -3,211 +3,206 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="This is MY PORTFOLIO website for CLASS" />
+  <meta name="description" content="Cute, minimal portfolio" />
   <title>MY Portfolio</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fascinate&family=VT323&display=swap');
+  </style>
 
   <style>
-    /* ========================
-       Cute Portfolio Preset CSS
-    ======================== */
+    /* ================
+       CUTE + MODERN PRESET
+    ================= */
 
-    /* Root colors */
     :root {
-      --color-bg: #fff0f6;            /* Soft pastel pink */
-      --color-primary: #c46ec1;       /* Lavender */
-      --color-primary-dark: #9e4aac;
-      --color-text: #4b3b4f;          /* Dark purple-gray */
-      --color-accent: #f7d6e0;        /* Light blush */
-      --color-link: #a26cbe;
-      --color-link-hover: #d18be1;
+      --teal: #008B8B;
+      --lavender: #D8BFD8;
+      --offwhite: #f7f7f7;
+      --dark: #2b2b2b;
+      --link-hover: #5f9ea0;
+      --accent-bg: #ffffffcc;
     }
 
-    /* Reset and base styles */
+    /* Basic Reset & Base */
     * {
       box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Nunito', Arial, sans-serif;
-      background: var(--color-bg);
       margin: 0;
-      padding: 2rem 1.5rem;
-      line-height: 1.6;
-      color: var(--color-text);
-      text-align: center;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 0;
     }
 
-    /* Sparkle animation for headings */
-    @keyframes sparkle {
-      0%, 100% { text-shadow: 0 0 3px #fff, 0 0 10px var(--color-primary); }
-      50% { text-shadow: 0 0 5px #fff, 0 0 20px var(--color-primary-dark); }
+    html, body {
+      font-family: 'VT323', monospace;
+      background: var(--offwhite);
+      color: var(--dark);
+      padding: 2rem 1rem;
+      text-align: center;
     }
 
     h1, h2, h3 {
-      font-family: 'Cookie', cursive;
-      color: var(--color-primary);
-      margin: 0.5rem 0 1rem;
-      animation: sparkle 3s infinite ease-in-out;
+      font-family: 'Fascinate', cursive;
+      color: var(--teal);
+      margin: 1rem 0;
     }
 
     h1 {
-      font-size: 3.5rem;
-      letter-spacing: 0.1em;
+      font-size: 3rem;
+      animation: titlePop 3s ease-in-out infinite;
     }
 
     h2 {
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
 
     h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1.2rem;
+      font-size: 1.4rem;
+      color: var(--teal);
     }
 
-    /* Container for content */
+    /* Title Animation */
+    @keyframes titlePop {
+      0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 0 2px var(--lavender);
+      }
+      50% {
+        transform: scale(1.04);
+        text-shadow: 0 0 12px var(--teal);
+      }
+    }
+
+    /* Layout Containers */
     .container {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(196, 110, 193, 0.25);
-      max-width: 650px;
+      background: var(--accent-bg);
+      border-radius: 16px;
       padding: 2rem;
-      margin-bottom: 2rem;
-      text-align: left;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 20px rgba(0, 139, 139, 0.1);
     }
 
-    /* Image styling */
     .portrait {
-      display: block;
-      max-width: 100%;
+      width: 100%;
+      max-width: 400px;
       height: auto;
-      border-radius: 20px;
-      border: 5px solid var(--color-primary);
-      margin: 0 auto 1.5rem;
-      box-shadow: 0 4px 15px rgba(196, 110, 193, 0.4);
+      border-radius: 12px;
+      border: 4px solid var(--lavender);
+      margin-bottom: 1rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
     }
 
-    /* Paragraph and pre/code */
+    .portrait:hover {
+      transform: scale(1.02) rotate(-1deg);
+    }
+
     p {
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-      color: var(--color-text);
+      font-size: 1.2rem;
+      margin: 1rem 0;
     }
 
     pre, code {
-      background: var(--color-accent);
+      background: #111;
+      color: var(--lavender);
       padding: 1rem;
-      border-radius: 12px;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1rem;
+      border-radius: 10px;
+      font-size: 1.1rem;
       overflow-x: auto;
-      color: var(--color-primary-dark);
-      box-shadow: inset 0 0 10px #f5c9e1;
+      box-shadow: inset 0 0 10px #333;
+      margin-top: 1rem;
     }
 
-    /* Footer with links */
+    /* Footer & Nav */
     footer {
-      width: 100%;
-      max-width: 650px;
-      margin-top: auto;
-      text-align: center;
+      margin-top: 4rem;
     }
 
-    footer .demo {
-      background: var(--color-accent);
+    .demo {
+      background: var(--lavender);
       border-radius: 20px;
-      padding: 1.5rem 2rem;
-      box-shadow: 0 5px 15px rgba(196, 110, 193, 0.15);
-    }
-
-    footer h2 {
-      margin-bottom: 1rem;
+      padding: 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     nav ul {
-      padding: 0;
       list-style: none;
-      margin: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.8rem;
+      gap: 1rem;
+      padding: 0;
     }
 
     nav li {
       background: white;
-      border-radius: 15px;
-      box-shadow: 0 2px 6px rgba(196, 110, 193, 0.2);
-      padding: 0.5rem 1rem;
-      transition: background 0.3s ease;
+      padding: 0.7rem 1.2rem;
+      border-radius: 14px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     nav li:hover {
-      background: var(--color-primary);
-      box-shadow: 0 4px 12px var(--color-primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     }
 
     nav a {
       text-decoration: none;
-      color: var(--color-primary);
-      font-weight: 700;
-      font-size: 1rem;
+      color: var(--teal);
+      font-size: 1.1rem;
+      font-weight: bold;
       transition: color 0.3s ease;
-      display: inline-block;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "✨";
+      opacity: 0;
+      position: absolute;
+      right: -1.5rem;
+      transition: opacity 0.4s ease;
     }
 
     nav a:hover {
-      color: white;
+      color: var(--link-hover);
+    }
+
+    nav a:hover::after {
+      opacity: 1;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
-      body {
-        padding: 1rem 1rem;
-      }
-      .container {
-        padding: 1.5rem;
-      }
       h1 {
-        font-size: 2.5rem;
+        font-size: 2.4rem;
       }
-      h2 {
-        font-size: 2rem;
+      .container, .demo {
+        padding: 1.5rem;
       }
       nav ul {
         flex-direction: column;
-        gap: 0.5rem;
-      }
-      nav li {
-        padding: 0.75rem 1rem;
       }
     }
+
   </style>
 </head>
 
 <body>
+
   <header>
     <h1>MY Portfolio</h1>
   </header>
 
   <section class="container">
-    <img class="portrait" src="portrait1.png" alt="a santorini sunset" width="400" height="500" />
+    <img class="portrait" src="portrait1.png" alt="a santorini sunset" />
     <h2>Personal Summary</h2>
     <h3>Here is a brief ABOUT ME section</h3>
-    <p>Welcome to my portfolio! I love coding, design, and cute pastel aesthetics. Here's where I share my homework and projects.</p>
-    
+    <p>I like coding, sunsets, and pixels. This is my cute corner of the internet where I keep all my class work ✨</p>
+
     <pre><code>
-    /* Example code block */
-    body {
-      background: pink;
-      color: purple;
-    }
+    // sample code
+    let mood = "cute";
+    const vibe = "minimalist + animated";
     </code></pre>
   </section>
 
@@ -217,19 +212,20 @@
       <nav>
         <ul>
           <li><a href="readings.html">Readings & Reflections</a></li>
-          <li><a href="hw1.html">Homework #1: Getting Started With Web Development</a></li>
-          <li><a href="hw2.html">Homework #2: Cropping & Resizing Images & Tonal Range</a></li>
-          <li><a href="hw3.html">Homework #3: Depth of Field</a></li>
-          <li><a href="hw4.html">Homework #4: Photomontage</a></li>
-          <li><a href="hw5.html">Homework #5: Photomontage & Design</a></li>
-          <li><a href="hw6.html">Homework #6: In-Lab Vector Emotive Eye</a></li>
-          <li><a href="hw7.html">Homework #7: Illustrative Environment</a></li>
-          <li><a href="hw8.html">Homework #8: Animated GIFs</a></li>
-          <li><a href="hw9.html">Homework #9: Data Visualization</a></li>
-          <li><a href="hw10.html">Homework #10: Interactive Story</a></li>
+          <li><a href="hw1.html">Homework #1</a></li>
+          <li><a href="hw2.html">Homework #2</a></li>
+          <li><a href="hw3.html">Homework #3</a></li>
+          <li><a href="hw4.html">Homework #4</a></li>
+          <li><a href="hw5.html">Homework #5</a></li>
+          <li><a href="hw6.html">Homework #6</a></li>
+          <li><a href="hw7.html">Homework #7</a></li>
+          <li><a href="hw8.html">Homework #8</a></li>
+          <li><a href="hw9.html">Homework #9</a></li>
+          <li><a href="hw10.html">Homework #10</a></li>
         </ul>
       </nav>
     </div>
   </footer>
+
 </body>
 </html>
