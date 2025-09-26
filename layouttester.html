@@ -3,232 +3,191 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Portfolio</title>
+  <title>✨ CuteSpark Portfolio ✨</title>
 
-  <!-- FONTS -->
-  <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=VT323&family=Space+Mono&display=swap" rel="stylesheet">
 
-  <!-- STYLE -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- Styles -->
+  <style>
+    :root {
+      --main-bg: #1a1a1a;
+      --accent-1: #008B8B;
+      --accent-2: #D8BFD8;
+      --text-light: #f7f7f7;
+      --container-width: 700px;
+    }
 
-<style>
-/* COLOR VARIABLES */
-:root {
-  --main-bg: #1e1e1e;
-  --content-bg: #2a2a2a;
-  --text-color: #f7f7f7;
-  --accent: #008B8B;
-  --highlight: #D8BFD8;
-  --font-title: 'Fascinate', cursive;
-  --font-body: 'VT323', monospace;
-  --font-headers: 'Press Start 2P', monospace;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* RESET & BASE */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    body {
+      font-family: 'VT323', monospace;
+      background-color: var(--main-bg);
+      color: var(--text-light);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-body {
-  font-family: var(--font-body);
-  background: var(--main-bg);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-}
+    .container {
+      max-width: var(--container-width);
+      width: 100%;
+    }
 
-main {
-  max-width: 700px;
-  width: 100%;
-  background: var(--content-bg);
-  padding: 2rem;
-  border-radius: 16px;
-}
+    header {
+      margin-bottom: 2rem;
+      position: relative;
+      text-align: center;
+    }
 
-/* SPARKLY TITLE */
-.sparkly-title {
-  font-family: var(--font-title);
-  font-size: 3rem;
-  text-align: center;
-  position: relative;
-  display: block;
-  margin-bottom: 2rem;
-  color: transparent;
-  text-decoration: none;
-}
+    .sparkle-title {
+      font-family: 'Fascinate', cursive;
+      font-size: 3rem;
+      color: var(--accent-2);
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
 
-/* (Sparkly effect CSS here - you can paste the sparkle animation from your code) */
-/* Be sure to add the SVG sparkle animation you provided earlier! */
+    .sparkle-title:hover::after {
+      content: '✨';
+      position: absolute;
+      right: -30px;
+      top: 0;
+      animation: sparkle 0.8s infinite;
+    }
 
-/* HEADINGS */
-h2 {
-  font-family: var(--font-headers);
-  font-size: 1.2rem;
-  color: var(--highlight);
-  margin: 2rem 0 1rem;
-}
+    @keyframes sparkle {
+      0% { opacity: 0; transform: scale(0.5) rotate(0deg);}
+      50% { opacity: 1; transform: scale(1.5) rotate(45deg);}
+      100% { opacity: 0; transform: scale(0.5) rotate(90deg);}
+    }
 
-h3 {
-  font-family: var(--font-headers);
-  font-size: 1rem;
-  color: var(--accent);
-  margin: 1rem 0;
-}
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
 
-/* PORTRAIT ANIMATION */
-.animated-portrait {
-  width: 100%;
-  max-width: 400px;
-  border: 4px solid var(--highlight);
-  border-radius: 12px;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
+    .menu-toggle {
+      background-color: transparent;
+      border: 2px solid var(--accent-2);
+      color: var(--accent-2);
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Space Mono', monospace;
+    }
 
-.animated-portrait:hover {
-  transform: scale(1.05) rotate(-2deg);
-  box-shadow: 0 8px 30px rgba(216, 191, 216, 0.5);
-}
+    .menu-toggle:hover {
+      background-color: var(--accent-2);
+      color: var(--main-bg);
+    }
 
-/* PROFILE BOX */
-.profile-box {
-  background: var(--main-bg);
-  padding: 1rem;
-  border-radius: 12px;
-  text-align: center;
-  margin-top: 1rem;
-}
+    .menu {
+      position: fixed;
+      top: 60px;
+      left: 20px;
+      background-color: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
 
-/* FOOTER */
-footer {
-  text-align: center;
-  margin-top: 3rem;
-  font-size: 0.9rem;
-  color: #aaa;
-}
+    .menu a {
+      display: block;
+      margin: 0.5rem 0;
+      text-decoration: none;
+      color: var(--accent-1);
+      font-family: 'Space Mono', monospace;
+      transition: all 0.2s ease;
+    }
 
-/* MENU STYLES */
-.hamburger {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 100;
-  cursor: pointer;
-}
+    .menu a:hover {
+      color: var(--accent-2);
+      transform: translateX(5px);
+    }
 
-.bar {
-  background: var(--highlight);
-  height: 4px;
-  width: 30px;
-  margin: 5px;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
+    .section {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
 
-/* Toggle Menu Animation */
-#menu-toggle:checked ~ .menu {
-  transform: translateX(0);
-}
+    h2 {
+      font-family: 'Space Mono', monospace;
+      color: var(--accent-1);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
 
-.menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 60%;
-  max-width: 300px;
-  background: var(--accent);
-  padding: 3rem 1rem;
-  transform: translateX(-100%);
-  transition: transform 0.4s ease-in-out;
-  z-index: 99;
-}
+    .portrait {
+      width: 300px;
+      height: auto;
+      border-radius: 16px;
+      border: 4px solid var(--accent-2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
 
-.menu ul {
-  list-style: none;
-}
+    .portrait:hover {
+      transform: rotate(-2deg) scale(1.05);
+      box-shadow: 0 0 20px var(--accent-1);
+    }
 
-.menu a {
-  display: block;
-  padding: 0.75rem 0;
-  color: var(--text-color);
-  text-decoration: none;
-  font-size: 1.2rem;
-}
-
-.menu a:hover {
-  color: var(--highlight);
-}
-
-
-
+    footer {
+      text-align: center;
+      font-size: 1rem;
+      margin-top: 2rem;
+      color: var(--accent-2);
+    }
   </style>
+
+  <!-- Script -->
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
 </head>
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <body>  
+<body>
+  <nav>
+    <button class="menu-toggle" onclick="toggleMenu()">☰ Homework</button>
+    <div class="menu" id="menu">
+      <a href="readings.html">Readings</a>
+      <a href="hw1.html">Homework 1</a>
+      <a href="hw2.html">Homework 2</a>
+      <a href="hw3.html">Homework 3</a>
+      <a href="hw4.html">Homework 4</a>
+    </div>
+  </nav>
 
-  <!-- HAMBURGER MENU -->
-  <input type="checkbox" id="menu-toggle">
-  <label for="menu-toggle" class="hamburger">
-    <span class="bar top"></span>
-    <span class="bar middle"></span>
-    <span class="bar bottom"></span>
-  </label>
+  <div class="container">
+    <header>
+      <div class="sparkle-title">✨ My Portfolio ✨</div>
+    </header>
 
-  <aside class="menu">
-    <nav>
-      <ul>
-        <li><a href="readings.html">Readings & Reflections</a></li>
-        <li><a href="hw1.html">Homework #1</a></li>
-        <li><a href="hw2.html">Homework #2</a></li>
-        <li><a href="hw3.html">Homework #3</a></li>
-        <!-- Add more as needed -->
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- MAIN CONTENT -->
-  <main>
-    <!-- SPARKLY TITLE -->
-    <a href="#" class="sparkly-title">
-      <span>My Portfolio</span>
-      <span aria-hidden="true">My Portfolio</span>
-
-      <!-- Sparkle SVGs -->
-      <svg viewBox="0 0 96 96"><path d="..."/></svg>
-      <svg viewBox="0 0 96 96"><path d="..."/></svg>
-      <svg viewBox="0 0 96 96"><path d="..."/></svg>
-      <svg viewBox="0 0 96 96"><path d="..."/></svg>
-      <svg viewBox="0 0 96 96"><path d="..."/></svg>
-    </a>
-
-    <section>
-      <h2>Personal Summary</h2>
-      <div class="profile-box">
-        <img src="portrait1.png" alt="Portrait" class="animated-portrait"/>
-        <h3>Here is a brief ABOUT ME section</h3>
-        <p>I'm passionate about design, creativity, and making the web a cuter place ✨</p>
-      </div>
+    <section class="section">
+      <h2>About Me</h2>
+      <img src="portrait1.png" alt="My Portrait" class="portrait" />
+      <p style="margin-top:1rem;">Hey there! I'm a creative technologist who loves coding, design, and sparkles. This site is my digital playground — a space for learning, experimenting, and building something beautiful.</p>
     </section>
 
     <footer>
-      <p>&copy; 2025 My Portfolio | Designed with 💖</p>
+      <p>&copy; 2025 — Handmade with 💻 & ✨</p>
     </footer>
-  </main>
+  </div>
 </body>
 </html>
+
 
 
 <!--
