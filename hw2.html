@@ -82,10 +82,115 @@
     a:hover {
       text-decoration: underline;
     }
+
+    /* test Lightbox overlay */
+  #lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Visible state */
+  #lightbox.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Enlarged image style */
+  #lightbox-img {
+    max-width: 90vw;
+    max-height: 80vh;
+    box-shadow: 0 0 20px white;
+    border-radius: 8px;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+  }
+
+  #lightbox.visible #lightbox-img {
+    transform: scale(1);
+  }
+
+  /* Close button style */
+  #lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+
+  #lightbox-close:hover {
+    color: #ffcc00;
+  }
+
+    
   </style>
+
+  
 </head>
 <body>
-  <h1>Homework #2 – Cropping and Resizing Images & Tonal Range</h1>
+
+  
+<script>
+const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxClose = document.getElementById('lightbox-close');
+  const triggers = document.querySelectorAll('.lightbox-trigger');
+
+  triggers.forEach(img => {
+    img.addEventListener('click', () => {
+      const largeSrc = img.getAttribute('data-large');
+      lightboxImg.src = largeSrc;
+      lightbox.classList.add('visible');
+      lightbox.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('visible');
+    lightbox.setAttribute('aria-hidden', 'true');
+    // Wait for transition before clearing image to avoid flicker
+    setTimeout(() => {
+      lightboxImg.src = '';
+    }, 300);
+  }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // Optional: Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && lightbox.classList.contains('visible')) {
+      closeLightbox();
+    }
+  });
+
+</script>
+
+
+
+  
+  <h1>Homework #2 – Cropping and Resizing <br> Images & Tonal Range</h1>
 
   <!-- Homework Images Section -->
 <section class="homework-images">
@@ -139,8 +244,24 @@
     </p>
   </div>
 
+
+<!--TESTING NEW IMAGE LAYOUT-->
+  <img src="img1.jpg"
+  alt="A thoughtfully edited version feat. an observant muse"
+  class="lightbox-trigger"
+  data-large="img1.jpg"
+  style="cursor:pointer;"
+/>
+
+<!-- Lightbox container -->
+<div id="lightbox" class="lightbox-hidden" aria-hidden="true" role="dialog" aria-label="Enlarged image view">
+  <span id="lightbox-close" role="button" aria-label="Close">&times;</span>
+  <img id="lightbox-img" src="img1.jpg" alt="Enlarged image" />
+</div>
+  
   
   <p>Go back: <a href="index.html">Link to my portfolio</a></p>
+  
 </body>
 </html>
 
