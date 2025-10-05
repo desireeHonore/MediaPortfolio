@@ -1,14 +1,19 @@
-<!DOCTYPE html>
+
+
+
+
+
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Desiree's Portfolio website for MEDPL 150">
   <title>✨ MEDPL 150 PORTFOLIO ✨</title>
 
-  <!-- Fonts -->
+  <!-- the letter designs, aka fonts link -->
   <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=VT323&family=Space+Mono&display=swap" rel="stylesheet">
 
+  <!-- change the colors and add additional sparkles here -->
   <style>
     :root {
       --main-bg: #1a1a1a;
@@ -32,7 +37,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      cursor: none; /* Hide default cursor for sparkle effect */
     }
 
     .container {
@@ -42,6 +46,7 @@
 
     header {
       margin-bottom: 2rem;
+      position: relative;
       text-align: center;
     }
 
@@ -49,16 +54,23 @@
       font-family: 'Fascinate', cursive;
       font-size: 3rem;
       color: var(--accent-2);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
     }
 
-    .sparkle-title img {
-      width: 24px;
-      height: 24px;
-      image-rendering: pixelated;
+    .sparkle-title:hover::after {
+      content: '✨';
+      position: absolute;
+      right: -30px;
+      top: 0;
+      animation: sparkle 0.8s infinite;
+    }
+
+    @keyframes sparkle {
+      0% { opacity: 0; transform: scale(0.5) rotate(0deg);}
+      50% { opacity: 1; transform: scale(1.5) rotate(45deg);}
+      100% { opacity: 0; transform: scale(0.5) rotate(90deg);}
     }
 
     nav {
@@ -142,6 +154,7 @@
     }
   </style>
 
+  <!-- JavaScript bby -->
   <script>
     function toggleMenu() {
       const menu = document.getElementById('menu');
@@ -169,7 +182,12 @@
     </div>
   </nav>
 
+
+  
   <div class="container">
+ <!--   <header>
+      <div class="sparkle-title">✨ Desiree's Portfolio ✨</div>
+    </header> -->
     <header>
       <div class="sparkle-title">
         <img src="bunnyrilakkuma.gif" alt="bunny left" />
@@ -178,12 +196,17 @@
       </div>
     </header>
 
+
+
+    
     <section class="section">
       <h2>A lil' About Me</h2>
       <img src="portrait1.png" alt="My Portrait" class="portrait" />
       <p style="margin-top:1rem;">
-        Thanks for stopping by, feel free to explore, and maybe even learn something new alongside me.
-      </p>
+        Hey there! My name's Desiree and I’m a computer science student at Hunter College in New York. I've always been curious about how things work, especially when it comes to code and design. I still have a lot to learn,
+        but that’s part of what makes this so fun. I’m especially interested in the space where creativity meets technology and look forward to exploring more of what connects the two. This site is my little corner of the internet where 
+        I share what I’m learning, reading, building, and experimenting with.
+        Thanks for stopping by, feel free to explore, and maybe even learn something new alongside me. -Des </p>
     </section>
 
     <footer>
@@ -191,17 +214,24 @@
     </footer>
   </div>
 
-  <!-- Sparkle cursor script -->
-  <script src="sparkle-cursor.js"></script>
+<script src="js/sparkle-cursor.js"></script>
+ 
 </body>
 </html>
 
-
-
-
-
-
 <!---
+
+
+<header>
+      <div class="sparkle-title">
+        <img src="bunnyrilakkuma.gif" alt="bunny left" />
+        My Portfolio
+        <img src="bunnyrilakkuma.gif" alt="bunny right" />
+      </div>
+</header>
+
+
+
  <!DOCTYPE html>
 <html lang="en">
 <head>
