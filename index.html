@@ -32,7 +32,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      cursor: none; /* Hide default cursor to show custom sparkle cursor */
+      cursor: none; /* Hide default cursor for sparkle effect */
     }
 
     .container {
@@ -42,7 +42,6 @@
 
     header {
       margin-bottom: 2rem;
-      position: relative;
       text-align: center;
     }
 
@@ -50,18 +49,16 @@
       font-family: 'Fascinate', cursive;
       font-size: 3rem;
       color: var(--accent-2);
-      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      cursor: pointer;
+      gap: 10px;
     }
 
     .sparkle-title img {
       width: 24px;
       height: 24px;
-      image-rendering: pixelated; 
+      image-rendering: pixelated;
     }
 
     nav {
@@ -194,6 +191,7 @@
     </footer>
   </div>
 
+  <!-- Sparkle cursor script -->
   <script src="sparkle-cursor.js"></script>
 </body>
 </html>
