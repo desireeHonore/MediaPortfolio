@@ -54,6 +54,29 @@
     a:hover {
       text-decoration: underline;
     }
+
+    .image-container {
+            margin: 55px -60px 60px -60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+    .image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d8d6d0 50%, transparent);
+        }
+
+    .image-container img {
+            width: 100%;
+            display: block;
+            opacity: 0.88;
+            filter: grayscale(15%) contrast(1.05);
+        }
   </style>
 </head>
 <body>
