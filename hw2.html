@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Homework #2 – Cropping and Resizing Images & Tonal Range</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f7f7f7;
+      font-family: 'VT323', monospace;
+      margin: 0 auto;
+      max-width: 720px;
+      padding: 2rem;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #008B8B;
+      text-align: center;
+    }
+
+/* Homework Images Styling */
+  .homework-images {
+              margin: 2rem auto;
+              max-width: 1000px; /* adjusted the width */
+              padding: 0 1rem;
+  }
+
+.image-row {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* Image + Hover Animation */
+.image-row img {
+  max-width: none; /*changed from 100% */
+  width: 550px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+  cursor: pointer;
+}
+
+.image-row img:hover {
+  transform: scale(1.05) rotate(0.5deg);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.1) saturate(1.2);
+}
+
+/* Optional Caption Styling */
+.image-row figure {
+  text-align: center;
+  margin: 0;
+}
+
+.image-row figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #7C7294;
+  font-style: italic;
+}
+
+    .description {
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #D8BFD8;
+      border-radius: 12px;
+    }
+
+    a {
+      color: #008B8B;
+      text-decoration: none;
+      font-size: 30px
+    }
+
+    a:hover {
+      text-decoration: underline;
+
+    h1 (
+      text-align: center;
+    }
+
+    footer {
+      font-size:40px;
+    }
+    
+  </style>
+
+  
+</head>
+<body>
+
+
+  
+  <p><h2>Homework #2:</h2></p> <p><h2>Cropping and Resizing Images & Tonal Range</h2></p>
+
+  <!-- Homework Images Section -->
+<section class="homework-images">
+  <div class="image-row">
+    <figure>
+      <img src="images/img1.jpg" alt="A thoughtfully edited version feat. an observant muse">
+      <figcaption>Original</figcaption>
+    </figure>
+    <br>
+    <figure>
+      <img src="images/IMG1copy.jpg" alt="The OG photograph">
+      <figcaption>Edited</figcaption>
+    </figure>
+  </div>
+</section>
+
+
+  <div class="description">
+    <p>
+          <strong>This photo was chosen because...</strong> it stood out as the most unique among all the shots I've taken that day, a rare, almost serendipitous 
+          moment where the subject looked directly at the camera, with no one else in the frame.
+        
+          <strong>I used different tonal elements such as...</strong>lots of adjustment layers w: gradient, brightness
+          contrast curves, exposure, vibrance, color balance,hue/saturation, modify feather & density, used the lasso to 
+          isolate the subject and add a layer of threshold on the subject.
+      
+    </p>
+  </div>
+
+  
+<h1><center>Part B</center></h1>
+<section class="homework-images">
+  <div class="image-row">
+    <figure>
+      <img src="images/img2.jpg" alt="A thoughtfully edited version feat. an observant muse">
+      <figcaption>Original</figcaption>
+    </figure>
+    <figure>
+      <img src="images/IMG2copy.jpg" alt="The OG photograph">
+      <figcaption>Edited</figcaption>
+    </figure>
+  </div>
+</section>
+
+  <div class="description">
+    <p>
+      <strong>This section explores visual storytelling </strong> through two distinct images. The first image captures depth through shadow and composition. 
+      The second image experiments with color and emotion. <strong>I focused on </strong>how small changes in lighting can change the mood of the piece dramatically.
+    </p>
+  </div>
+
+
+ <footer> 
+  <h1>Go back: <a href="index.html">to my portfolio</h1></p>
+ </footer>
+
+<script src="js/sparkle-cursor.js"></script>
+  
+</body>
+</html>
+
+
+
+<!-- 
+
+
+***OLD LAYOUT, KEEPING UNTIL ALL LINKS ARE REPLACED***
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is Desiree's HW2 for MEDPL 150">
+    <title>Homework 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <style> 
+      body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:2rem; line-height:1.5; text-align:center; }
+      footer { text-align:left }
+      h1 { font-family: 'Cookie', cursive; color: #B45E93; font-size: 50px; margin-top:0; }
+      .demo { background:#fff; border:1px solid #ddd; padding:1rem; border-radius:8px; margin:1rem 0; text-align:left}
+      pre { background:#222; color:#eee; padding:1rem; overflow:auto; border-radius:8px; }
+
+      * { box-sizing: border-box; }
+
+      p { margin:0.5rem 0; }
+
+      
+      div { background:pink; padding: 16px; border-radius:16px; }
+      h1, h2, h3 { text-align: center; }
+      nav ul { padding-inline-start: 0px }
+      nav li { list-style:none; display:inline; }
+            
+            a[href$=".html"] { padding:0px; } 
+      </style>
+  </head>
+
+  
+  <body>
+    <header>
+            <h1>Desiree's Portfolio</h1>
+            <h2>Homework #2</h2>
+            <div>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="index.html">Back to Desiree's Portfolio</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+    </header>
+    <section>
+      <h2 style="color:#f6d6e4;"><i>Image #1</i></h2>
+      <pre><code>
+        <img src="img1.jpg" alt="HW2 PHOTO" width="400px">
+        <img src="IMG1copy.jpg" alt="HW2 PHOTO" width="400px">
+        <h3>
+          This photo was chosen because...<br>it was most unique out of all photos taken, <br>
+          almost miraculous to have the subject <br>look at me while I was taking the photo & with <br> 
+          no surrounding persons.
+        </h3>
+        <h3>I used different tonal elements such as...<br>lots of adjustment layers w: gradient, brightness <br>
+          contrast curves, exposure, vibrance, color balance,<br> hue/saturation, modify feather & density, a <br>
+        threshold layer on the subject, used the lasso to <br>isolate the subject and add a layer of threshold</h3>
+
+
+***ADD FOR SECOND SET OF IMAGES***
+This assignment explores visual storytelling through two distinct images. The first image captures depth through shadow and composition. 
+The second image experiments with color and emotion. I focused on how small changes in lighting can change the mood of the piece dramatically.</p>
+
+      </code>
+      </pre>
+    </section>
+
+
+<footer>
+  <ul>                  
+    <li>
+      <a href="hw2pt2.html">Homework # 2 Part B</a>
+    </li>
+    <li>
+      <a href="index.html">Go Back to Desiree's Portfolio</a>
+    </li>
+  </ul>
+</footer>
+  </body>
+</html>
+
+-->
