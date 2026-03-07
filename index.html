@@ -1,19 +1,521 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Babylonica&amp;family=Dancing+Script:wght@400..700&amp;family=Roboto:ital,wght@0,100..900;1,100..900&amp;family=Special+Elite&amp;display=swap" rel="stylesheet">
-        <title>The Eighth Month</title>
-    </head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>✨ MEDPL 150 PORTFOLIO ✨</title>
+
+  <!-- the letter designs, aka fonts link -->
+  <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=VT323&family=Space+Mono&display=swap" rel="stylesheet">
+
+  <!-- change the colors and add additional sparkles here -->
+  <style>
+    :root {
+      --main-bg: #1a1a1a;
+      --accent-1: #008B8B;
+      --accent-2: #D8BFD8;
+      --text-light: #f7f7f7;
+      --container-width: 700px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'VT323', monospace;
+      background-color: var(--main-bg);
+      color: var(--text-light);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: var(--container-width);
+      width: 100%;
+    }
+
+    header {
+      margin-bottom: 2rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .sparkle-title {
+      font-family: 'Fascinate', cursive;
+      font-size: 3rem;
+      color: var(--accent-2);
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .sparkle-title:hover::after {
+      content:none ;
+      position: absolute;
+      right: -30px;
+      top: 0;
+      animation: sparkle 0.8s infinite;
+    }
+
+    @keyframes sparkle {
+      0% { opacity: 0; transform: scale(0.5) rotate(0deg);}
+      50% { opacity: 1; transform: scale(1.5) rotate(45deg);}
+      100% { opacity: 0; transform: scale(0.5) rotate(90deg);}
+    }
+
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
+
+    .menu-toggle {
+      background-color: transparent;
+      border: 2px solid var(--accent-2);
+      color: var(--accent-2);
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .menu-toggle:hover {
+      background-color: var(--accent-2);
+      color: var(--main-bg);
+    }
+
+    .menu {
+      position: fixed;
+      top: 60px;
+      left: 20px;
+      background-color: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .menu a {
+      display: block;
+      margin: 0.5rem 0;
+      text-decoration: none;
+      color: var(--accent-1);
+      font-family: 'Space Mono', monospace;
+      transition: all 0.2s ease;
+    }
+
+    .menu a:hover {
+      color: var(--accent-2);
+      transform: translateX(5px);
+    }
+
+    .section {
+      margin-bottom: 3rem;
+      text-align: center;
+      font-size: 24px
+    }
+
+    h2 {
+      font-family: 'Space Mono', monospace;
+      color: var(--accent-1);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .portrait {
+      width: 300px;
+      height: auto;
+      border-radius: 16px;
+      border: 4px solid var(--accent-2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .portrait:hover {
+      transform: rotate(-2deg) scale(1.05);
+      box-shadow: 0 0 20px var(--accent-1);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 1rem;
+      margin-top: 2rem;
+      color: var(--accent-2);
+    }
+  </style>
+
+  <!-- JavaScript bby, javascript start here -->
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</head>
+
 <body>
-        <div class="noise"></div>
-        <div class="container">
-            <div class="title-text"><h1>The Eighth Month</h1></div>
-            <a href="01.html" class="choice-btn">Begin</a>
-        </div>
+  <nav>
+    <button class="menu-toggle" onclick="toggleMenu()">☰ Projects</button>
+    <div class="menu" id="menu">
+      <a href="readings.html">Reading & Reflections</a>
+      <a href="https://desireehonore.github.io/Game-Portfolio/">Game Portfolio</a>
+      <a href="hw2.html">Image & Tonal Range</a>
+      <a href="hw3.html">Depth of Field</a>
+      <a href="hw4.html">Photomontage</a>
+      <a href="hw5.html">Photomontage Design</a>
+      <a href="hw6.html">Emotive Eye</a>
+      <a href="hw9.html">Data Visualization</a>
+      <a href="hw10.html">Interactive Story</a>
+    </div>
+  </nav>
+
+
+  
+  <div class="container">
+ <!--   <header>
+      <div class="sparkle-title">✨ Desiree's Portfolio ✨</div>
+  </header> Reevaluating this content header comment...--->
+    <header>
+      <div class="sparkle-title">
+        <img src="images/bunnyrilakkuma.gif" alt="bunny left" />
+        My Portfolio
+        <img src="images/bunnyrilakkuma.gif" alt="bunny right" />
+      </div>
+    </header>
+
+
+
+    
+    <section class="section">
+      <h2>A lil' About Me</h2>
+      <img src="images/portrait1.png" alt="My Portrait" class="portrait" />
+      <p style="margin-top:1rem;">
+        I spend half my time in the world of logic and algorithms and the other half deliberately carving out space for art; I have to force it into my routine, 
+        or I risk losing the very thing that makes my work human. My name's <i>Desirée Francheska Honoré</i> and I’m a Computer Science student living in New York. 
+        I've always been curious about how things work, especially when it comes to code and design. I’m especially interested in the space where creativity 
+        meets technology and look forward to exploring more of what connects the two. This site is my little corner of the internet where I share what I’m learning, 
+        reading, building, and experimenting with. Thanks for stopping by, feel free to explore, and maybe even learn something new alongside me. -Des </p>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 — Designed with 💻 & 💖</p>
+    </footer>
+  </div>
+
+<script src="js/sparkle-cursor.js"></script>
+ 
 </body>
 </html>
+
+<!---
+
+
+<header>
+      <div class="sparkle-title">
+        <img src="bunnyrilakkuma.gif" alt="bunny left" />
+        My Portfolio
+        <img src="bunnyrilakkuma.gif" alt="bunny right" />
+      </div>
+</header>
+
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>✨ MEDPL 150 PORTFOLIO ✨</title>
+
+  <!-- the letter designs, aka fonts link 
+  <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=VT323&family=Space+Mono&display=swap" rel="stylesheet">
+
+  <!-- change the colors and add additional sparkles here 
+  <style>
+    :root {
+      --main-bg: #1a1a1a;
+      --accent-1: #008B8B;
+      --accent-2: #D8BFD8;
+      --text-light: #f7f7f7;
+      --container-width: 700px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'VT323', monospace;
+      background-color: var(--main-bg);
+      color: var(--text-light);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: var(--container-width);
+      width: 100%;
+    }
+
+    header {
+      margin-bottom: 2rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .sparkle-title {
+      font-family: 'Fascinate', cursive;
+      font-size: 3rem;
+      color: var(--accent-2);
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .sparkle-title:hover::after {
+      content: '✨';
+      position: absolute;
+      right: -30px;
+      top: 0;
+      animation: sparkle 0.8s infinite;
+    }
+
+    @keyframes sparkle {
+      0% { opacity: 0; transform: scale(0.5) rotate(0deg);}
+      50% { opacity: 1; transform: scale(1.5) rotate(45deg);}
+      100% { opacity: 0; transform: scale(0.5) rotate(90deg);}
+    }
+
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
+
+    .menu-toggle {
+      background-color: transparent;
+      border: 2px solid var(--accent-2);
+      color: var(--accent-2);
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .menu-toggle:hover {
+      background-color: var(--accent-2);
+      color: var(--main-bg);
+    }
+
+    .menu {
+      position: fixed;
+      top: 60px;
+      left: 20px;
+      background-color: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .menu a {
+      display: block;
+      margin: 0.5rem 0;
+      text-decoration: none;
+      color: var(--accent-1);
+      font-family: 'Space Mono', monospace;
+      transition: all 0.2s ease;
+    }
+
+    .menu a:hover {
+      color: var(--accent-2);
+      transform: translateX(5px);
+    }
+
+    .section {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    h2 {
+      font-family: 'Space Mono', monospace;
+      color: var(--accent-1);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .portrait {
+      width: 300px;
+      height: auto;
+      border-radius: 16px;
+      border: 4px solid var(--accent-2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .portrait:hover {
+      transform: rotate(-2deg) scale(1.05);
+      box-shadow: 0 0 20px var(--accent-1);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 1rem;
+      margin-top: 2rem;
+      color: var(--accent-2);
+    }
+  </style>
+
+  <!-- JavaScript bby 
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</head>
+
+<body>
+  <nav>
+    <button class="menu-toggle" onclick="toggleMenu()">☰ Homework</button>
+    <div class="menu" id="menu">
+      <a href="readings.html">Readings</a>
+      <a href="readings.html">Homework 1</a>
+      <a href="hw2.html">Homework 2</a>
+      <a href="hw3.html">Homework 3</a>
+      <a href="hw4.html">Homework 4</a>
+      <a href="hw5.html">Homework 5</a>
+      <a href="hw6.html">Homework 6</a>
+      <a href="hw7.html">Homework 7</a>
+      <a href="hw8.html">Homework 8</a>
+      <a href="hw9.html">Homework 9</a>
+      <a href="hw10.html">Homework 10</a>
+      <a href="hwtemplatetester.html">test</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <header>
+      <div class="sparkle-title">✨ Desiree's Portfolio ✨</div>
+    </header>
+
+    <section class="section">
+      <h2>A lil' About Me</h2>
+      <img src="portrait1.png" alt="My Portrait" class="portrait" />
+      <p style="margin-top:1rem;">
+        Hey there! My name's Desiree and I’m a computer science student at Hunter College in New York. I've always been curious about how things work, especially when it comes to code and design. I still have a lot to learn,
+        but that’s part of what makes this so fun. I’m especially interested in the space where creativity meets technology and look forward to exploring more of what connects the two. This site is my little corner of the internet where 
+        I share what I’m learning, reading, building, and experimenting with.
+        Thanks for stopping by, feel free to explore, and maybe even learn something new alongside me. -Des </p>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 — Designed with 💻 & 💖</p>
+    </footer>
+  </div>
+
+<script src="js/sparkle-cursor.js"></script>
+ 
+</body>
+</html>
+
+<!--- OUT WITH THE OLD...
+<!doctype html>
+<html>
+  <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="This is Desiree's Portfolio website for MEDPL 150">
+<title>Desiree's Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <style> 
+      body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:2rem; line-height:1.5; text-align:center; }
+      footer { text-align:left }
+      h1 { font-family: 'Cookie', cursive; color: #B45E93; font-size: 50px; margin-top:0; }
+      .demo { background:#fff; border:1px solid #ddd; padding:1rem; border-radius:8px; margin:1rem 0; text-align:left}
+      pre { background:#222; color:#eee; padding:1rem; overflow:auto; border-radius:8px; }
+
+      * { box-sizing: border-box; align: center}
+
+      p { margin:0.5rem 0; }
+      
+      div { background:pink; padding: 16px; border-radius:16px; }
+      h1, h2, h3 { text-align: center; }
+      nav ul { padding-inline-start: 0px }
+      nav li { list-style:none; display:inline; }
+            
+            a[href$=".html"] { padding:0px; } 
+      </style>
+  </head>
+
+  
+  <body>
+    <header>
+            <h1 style="color:#c7254e;">Desiree's Portfolio</h1>
+    </header>
+    <section>
+      <h2>Personal Summary</h2>
+      <pre><code>
+      <img style='border:4px solid #000000' src="portrait1.png" alt="a santorini sunset" width="400px" height="500px">
+      <h3>Here is a brief ABOUT ME section</h3>
+
+        
+      </code>
+      </pre>
+
+
+<footer>
+  <div class="demo">
+    <h2>Homework Links</h2>
+  <ul>                  
+    <li>
+      <a href="readings.html">Readings & Reflections</a>
+    </li>
+    <li>
+      <a href="readings.html">Homework #1: Getting Started With Web Development</a><br>
+    </li>
+    <li>
+      <a href="hw2.html">Homework #2: Cropping & Resizing Images & Tonal Range</a>
+    </li>
+    <li>
+      <a href="layouttester.html">Homework #3: Depth of Field</a><br>
+    </li>
+    <li>
+      <a href="h1.html">Homework #4: Photomontage</a><br>
+    </li>
+    <li>
+      <a href="h1.html">Homework #5: Photomontage & Design</a><br>
+    </li>
+    <li>
+      <a href="h1.html">Homework #6: In-Lab Vector Emotive Eye</a><br>
+    </li>
+    <li>
+      <a href="h1.html">Homework #7: Illustrative Environment</a><br>
+    </li>
+    <li>
+      <a href="h1.html">Homework #8: Animated GIFs</a><br>
+    </li>
+    <li>
+      <a href="h1.html">Homework #9: Data Visualization</a><br>
+    </li>
+    <li>
+      <a href="h1.html">Homework #10: Interactive Story</a><br>
+    </li>
+  </ul>
+  </div>
+  </section>
+</footer>
+    </body>
+</html>
+--->
