@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NETWORKED — A Privacy Experience</title> 
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; font-family: 'Share Tech Mono', monospace; overflow: hidden; }
+
+    /* INTRO */
+    #intro {
+      position: fixed; inset: 0; background: #000; z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: #0ff; text-align: center; padding: 2rem; transition: opacity 1s ease;
+    }
+    #intro.fade-out { opacity: 0; pointer-events: none; }
+    #intro h1 {
+      font-family: 'Orbitron', monospace; font-size: 4rem;
+      font-weight: 900; letter-spacing: 0.3em; color: #0ff;
+      text-shadow: 0 0 40px #0ff, 0 0 80px #0ff;
+      animation: pulse 2s ease-in-out infinite; margin-bottom: 1rem;
+    }
+    #intro .subtitle {
+      font-size: 1.2rem; color: #0ff8; letter-spacing: 0.4em; margin-bottom: 2rem;
+    }
+    #intro .description {
+      max-width: 600px; color: #aaa; line-height: 1.8; font-size: 0.9rem;
+      margin-bottom: 2rem; border: 1px solid #0ff2; padding: 1.5rem;
+    }
+    #enter-btn {
+      background: transparent; border: 2px solid #0ff; color: #0ff;
+      font-family: 'Orbitron', monospace; font-size: 1rem; letter-spacing: 0.3em;
+      padding: 0.8rem 2.5rem; cursor: pointer; text-transform: uppercase;
+      transition: all 0.3s; animation: blink 1.5s ease-in-out infinite;
+    }
+    #enter-btn:hover { background: #0ff1; box-shadow: 0 0 30px #0ff; }
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 40px #0ff, 0 0 80px #0ff; }
+      50% { text-shadow: 0 0 20px #0ff, 0 0 40px #0ff, 0 0 120px #0ff; }
+    }
+    @keyframes blink { 0%, 100% { border-color: #0ff; } 50% { border-color: #0ff4; } }
+
+    /* HUD */
+    #hud {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: none;
+      padding: 1rem 2rem; background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+      color: #0ff; font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em;
+    }
+    #hud.visible { display: flex; justify-content: space-between; }
+    .hud-left .title { font-family: 'Orbitron', monospace; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.3em; }
+    .hud-left .sub { color: #0ff6; margin-top: 2px; }
+    .hud-right { text-align: right; }
+
+    /* TICKER */
+    #ticker {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; display: none;
+      background: rgba(0,0,0,0.85); border-top: 1px solid #0ff2; padding: 0.4rem 0; overflow: hidden;
+    }
+    #ticker.visible { display: block; }
+    .ticker-track {
+      display: flex; white-space: nowrap;
+      animation: scroll 40s linear infinite;
+    }
+    .ticker-item { font-size: 0.65rem; color: #0ff8; letter-spacing: 0.1em; padding: 0 3rem; }
+    .ticker-item .dot { color: #f0f; margin-right: 0.5rem; }
+    @keyframes scroll { 0% { transform: translateX(100vw); } 100% { transform: translateX(-200%); } }
+
+    /* ROOM PANEL */
+    #room-panel {
+      position: fixed; inset: 0; z-index: 200; display: none;
+      background: rgba(0,0,5,0.97); flex-direction: column; align-items: center; justify-content: center;
+    }
+    #room-panel.visible { display: flex; }
+    .room-stage {
+      position: relative; width: 90vw; max-width: 900px; aspect-ratio: 4/3;
+      border: 2px solid #0ff4; background: #05050f; box-shadow: 0 0 60px #0ff2; overflow: hidden;
+    }
+    .room-stage::before {
+      content: ''; position: absolute; top: -5px; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, #0ff, transparent);
+      animation: scan 3s linear infinite; z-index: 10; pointer-events: none;
+    }
+    @keyframes scan { 0% { top: -5px; } 100% { top: 100%; } }
+    #room-canvas { width: 100%; height: 100%; display: block; }
+    .room-info {
+      width: 90vw; max-width: 900px; display: flex; justify-content: space-between;
+      padding: 0.75rem 1rem; border: 1px solid #0ff2; border-top: none; background: #05050f;
+    }
+    .room-name { font-family: 'Orbitron', monospace; font-size: 0.8rem; color: #0ff; letter-spacing: 0.2em; }
+    .room-data { font-size: 0.6rem; color: #0ff6; }
+    #back-btn {
+      margin-top: 1rem; background: transparent; border: 1px solid #0ff4; color: #0ff8;
+      font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em;
+      padding: 0.5rem 2rem; cursor: pointer; transition: all 0.3s; text-transform: uppercase;
+    }
+    #back-btn:hover { border-color: #0ff; color: #0ff; background: #0ff1; }
+
+    /* DATA TAGS */
+    .data-tag {
+      position: absolute; background: rgba(0,255,255,0.08); border: 1px solid #0ff4;
+      color: #0ff; font-family: 'Share Tech Mono', monospace; font-size: 0.6rem;
+      padding: 3px 8px; letter-spacing: 0.1em; pointer-events: none;
+      animation: flicker 2s ease-in-out infinite;
+    }
+    @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+    /* ADS */
+    .ad-banner {
+      position: absolute; background: linear-gradient(135deg, #1a0025, #0d001a);
+      border: 1px solid #f0f4; color: #f0f; font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem; padding: 6px 12px; letter-spacing: 0.05em; cursor: pointer;
+      animation: ad-pulse 3s ease-in-out infinite; white-space: pre-line;
+    }
+    .ad-banner .label { font-size: 0.45rem; color: #f0f6; display: block; margin-bottom: 2px; }
+    @keyframes ad-pulse { 0%, 100% { box-shadow: 0 0 10px #f0f2; } 50% { box-shadow: 0 0 20px #f0f4; } }
+
+    /* HINT */
+    #hint {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 100; display: none; background: rgba(0,0,0,0.7);
+      border: 1px solid #0ff4; color: #0ff; font-size: 0.7rem; letter-spacing: 0.2em;
+      padding: 0.5rem 1.5rem; pointer-events: none;
+    }
+    #hint.visible { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>NETWORKED</h1>
+  <div class="subtitle">A DATA SURVEILLANCE EXPERIENCE</div>
+  <div class="description">
+    Your home Wi-Fi is <span style="color:#0ff;">always listening.</span><br><br>
+    Every routine. Every meal. Every private moment.<br>
+    Motion patterns, behavioral data, predictive profiles—<br>
+    all harvested silently through the networks you trust.<br><br>
+    <span style="color:#0ff;">Walk their street. Click a house. See through their walls.</span>
+  </div>
+  <button id="enter-btn">▶ ENTER THE NETWORK</button>
+</div>
+
+<!-- HUD -->
+<div id="hud">
+  <div class="hud-left">
+    <div class="title">NETWORKED</div>
+    <div class="sub">PASSIVE SURVEILLANCE MODE ACTIVE</div>
+  </div>
+  <div class="hud-right">
+    SESSION ID: <span id="session-id">——</span><br>
+    NODES SCANNED: <span id="scan-count">0</span>/3<br>
+    DATA HARVESTED: <span id="data-mb">0.0</span> MB
+  </div>
+</div>
+
+<!-- TICKER -->
+<div id="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="dot">●</span>DEVICE 192.168.1.12 — MOTION DETECTED — DANCE PATTERN LOGGED</span>
+    <span class="ticker-item"><span class="dot">●</span>HOUSEHOLD 4B — MEAL FREQUENCY: 6:47PM DAILY — DATA SOLD TO 14 ADVERTISERS</span>
+    <span class="ticker-item"><span class="dot">●</span>MINOR DEVICE DETECTED — SCREEN TIME: 4.2HRS — PROFILE BUILDING COMPLETE</span>
+    <span class="ticker-item"><span class="dot">●</span>EMOTIONAL STATE INFERRED — TARGETED ADS QUEUED: 23 — CONVERSION PROBABILITY: 78%</span>
+  </div>
+</div>
+
+<!-- HINT -->
+<div id="hint">CLICK ON A HOUSE DOOR TO SCAN</div>
+
+<!-- ROOM PANEL -->
+<div id="room-panel">
+  <div class="room-stage">
+    <canvas id="room-canvas"></canvas>
+  </div>
+  <div class="room-info">
+    <div class="room-name" id="room-name">——</div>
+    <div class="room-data" id="room-data">——</div>
+  </div>
+  <button id="back-btn">◀ EXIT X-RAY / RETURN TO STREET</button>
+</div>
+
+<!-- A-FRAME -->
+<a-scene id="scene" background="color: #87ceeb" style="display:none;">
+  <a-sky color="#87ceeb"></a-sky>
+  <a-light type="directional" position="1 3 -1" color="#fff8e0" intensity="1.2"></a-light>
+  <a-light type="ambient" color="#b0c8e8" intensity="0.8"></a-light>
+
+  <!-- GROUND -->
+  <a-plane rotation="-90 0 0" width="300" height="300" color="#4a8a3a" material="shader: flat"></a-plane>
+
+  <!-- ROAD -->
+  <a-plane rotation="-90 0 0" position="0 0.01 2" width="50" height="8" color="#444444" material="shader: flat"></a-plane>
+  <a-plane rotation="-90 0 0" position="0 0.02 2" width="50" height="0.2" color="#ffff00" material="shader: flat; opacity: 0.7"></a-plane>
+
+  <!-- ══ HOUSE A (LEFT) ══ -->
+  <a-entity id="house-a-group" position="-16 0 -12">
+    <!-- Walls -->
+    <a-box position="0 0.2 0" width="9" height="0.4" depth="7" color="#8a7a6a" material="shader: flat"></a-box>
+    <a-box position="0 2.5 0" width="9" height="5" depth="7" color="#e8dcc8" material="shader: flat"></a-box>
+
+    <!-- Roof -->
+    <a-entity position="0 5 0">
+      <a-box position="-2.8 1 0" width="4" height="0.2" depth="8" rotation="0 0 35" color="#7a4a2a" material="shader: flat"></a-box>
+      <a-box position="2.8 1 0" width="4" height="0.2" depth="8" rotation="0 0 -35" color="#6a3c20" material="shader: flat"></a-box>
+    </a-entity>
+
+    <!-- Door -->
+    <a-box position="0 1.1 3.51" width="1.2" height="2.2" depth="0.1" color="#5a3018" material="shader: flat"></a-box>
+    <a-sphere position="0.45 1.1 3.62" radius="0.06" color="#d4a030" material="emissive: #d4a030; emissiveIntensity: 0.3"></a-sphere>
+
+    <!-- Windows -->
+    <a-box position="-2.5 2.8 3.51" width="1.8" height="1.6" depth="0.1" color="#ffe090" material="emissive: #ffe090; emissiveIntensity: 0.8; transparent: true; opacity: 0.5"></a-box>
+    <a-box position="2.5 2.8 3.51" width="1.8" height="1.6" depth="0.1" color="#ffe090" material="emissive: #ffe090; emissiveIntensity: 0.8; transparent: true; opacity: 0.5"></a-box>
+
+    <!-- CLICKABLE ZONE -->
+    <a-box id="door-a" data-room="A" class="door" position="0 1.1 3.6" width="2" height="2.5" depth="0.3" color="red" material="opacity: 0"></a-box>
+
+    <!-- Wi-Fi Portal -->
+    <a-entity position="0 4 3.7">
+      <a-ring color="#00ccff" radius-inner="0.3" radius-outer="0.5" material="emissive: #00ccff; emissiveIntensity: 1; opacity: 0.8" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dir: alternate; dur: 1200; loop: true"></a-ring>
+      <a-ring color="#00ccff" radius-inner="0.6" radius-outer="0.75" material="emissive: #00ccff; emissiveIntensity: 0.6; opacity: 0.5"></a-ring>
+    </a-entity>
+    <a-text value="UNIT A" position="0 4.8 3.8" align="center" color="#00ffff" width="4" material="emissive: #00ffff; emissiveIntensity: 0.8"></a-text>
+  </a-entity>
+
+  <!-- ══ HOUSE B (CENTER) ══ -->
+  <a-entity id="house-b-group" position="0 0 -14">
+    <a-box position="0 0.2 0" width="10" height="0.4" depth="8" color="#7a6a5a" material="shader: flat"></a-box>
+    <a-box position="0 3 0" width="10" height="6" depth="8" color="#f0e8d8" material="shader: flat"></a-box>
+
+    <!-- Roof -->
+    <a-entity position="0 6 0">
+      <a-box position="-3.1 1.1 0" width="4.5" height="0.2" depth="9" rotation="0 0 32" color="#2a4a8a" material="shader: flat"></a-box>
+      <a-box position="3.1 1.1 0" width="4.5" height="0.2" depth="9" rotation="0 0 -32" color="#1e3a78" material="shader: flat"></a-box>
+    </a-entity>
+
+    <!-- Door -->
+    <a-box position="2.5 1.3 4.01" width="1.4" height="2.6" depth="0.1" color="#3a2010" material="shader: flat"></a-box>
+    <a-sphere position="2.9 1.3 4.12" radius="0.07" color="#d4a030" material="emissive: #d4a030; emissiveIntensity: 0.3"></a-sphere>
+
+    <!-- Windows -->
+    <a-box position="1 3.5 4.01" width="2" height="1.8" depth="0.1" color="#ffd070" material="emissive: #ffd070; emissiveIntensity: 0.8; transparent: true; opacity: 0.55"></a-box>
+    <a-box position="4 3.5 4.01" width="1.4" height="1.8" depth="0.1" color="#ffd070" material="emissive: #ffd070; emissiveIntensity: 0.8; transparent: true; opacity: 0.45"></a-box>
+
+    <!-- CLICKABLE ZONE -->
+    <a-box id="door-b" data-room="B" class="door" position="2.5 1.3 4.2" width="2.2" height="2.8" depth="0.3" color="red" material="opacity: 0"></a-box>
+
+    <!-- Wi-Fi Portal -->
+    <a-entity position="2.5 4.6 4.2">
+      <a-ring color="#00ccff" radius-inner="0.3" radius-outer="0.5" material="emissive: #00ccff; emissiveIntensity: 1; opacity: 0.8" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dir: alternate; dur: 1200; loop: true"></a-ring>
+      <a-ring color="#00ccff" radius-inner="0.6" radius-outer="0.75" material="emissive: #00ccff; emissiveIntensity: 0.6; opacity: 0.5"></a-ring>
+    </a-entity>
+    <a-text value="UNIT B" position="2.5 5.3 4.3" align="center" color="#00ffff" width="4" material="emissive: #00ffff; emissiveIntensity: 0.8"></a-text>
+  </a-entity>
+
+  <!-- ══ HOUSE C (RIGHT) ══ -->
+  <a-entity id="house-c-group" position="16 0 -11">
+    <a-box position="0 0.2 0" width="8" height="0.4" depth="7" color="#8a8878" material="shader: flat"></a-box>
+    <a-box position="0 2.2 0" width="8" height="4.4" depth="7" color="#d8e8d0" material="shader: flat"></a-box>
+
+    <!-- Roof -->
+    <a-entity position="0 4.6 0">
+      <a-box position="-2.4 0.8 0" width="3.5" height="0.2" depth="8" rotation="0 0 28" color="#6a8060" material="shader: flat"></a-box>
+      <a-box position="2.4 0.8 0" width="3.5" height="0.2" depth="8" rotation="0 0 -28" color="#5a7050" material="shader: flat"></a-box>
+    </a-entity>
+
+    <!-- Door -->
+    <a-box position="0 1.1 3.51" width="1.2" height="2.2" depth="0.1" color="#4a4040" material="shader: flat"></a-box>
+    <a-sphere position="0.4 1.1 3.62" radius="0.06" color="#d4a030" material="emissive: #d4a030; emissiveIntensity: 0.3"></a-sphere>
+
+    <!-- Windows - Gaming glow -->
+    <a-box position="-2.2 2.5 3.51" width="1.6" height="1.6" depth="0.1" color="#6080ff" material="emissive: #6080ff; emissiveIntensity: 1; transparent: true; opacity: 0.6" animation="property: material.emissiveIntensity; from: 0.7; to: 1.2; dir: alternate; dur: 800; loop: true"></a-box>
+    <a-box position="2.2 2.5 3.51" width="1.6" height="1.6" depth="0.1" color="#9040ff" material="emissive: #9040ff; emissiveIntensity: 1; transparent: true; opacity: 0.5" animation="property: material.emissiveIntensity; from: 0.6; to: 1.1; dir: alternate; dur: 600; loop: true"></a-box>
+
+    <!-- CLICKABLE ZONE -->
+    <a-box id="door-c" data-room="C" class="door" position="0 1.1 3.7" width="2" height="2.5" depth="0.3" color="red" material="opacity: 0"></a-box>
+
+    <!-- Wi-Fi Portal -->
+    <a-entity position="0 3.7 3.7">
+      <a-ring color="#00ccff" radius-inner="0.3" radius-outer="0.5" material="emissive: #00ccff; emissiveIntensity: 1; opacity: 0.8" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dir: alternate; dur: 1200; loop: true"></a-ring>
+      <a-ring color="#00ccff" radius-inner="0.6" radius-outer="0.75" material="emissive: #00ccff; emissiveIntensity: 0.6; opacity: 0.5"></a-ring>
+    </a-entity>
+    <a-text value="UNIT C" position="0 4.4 3.8" align="center" color="#00ffff" width="4" material="emissive: #00ffff; emissiveIntensity: 0.8"></a-text>
+  </a-entity>
+
+  <!-- CAMERA -->
+  <a-entity id="player" position="0 1.65 6">
+    <a-camera look-controls="pointerLockEnabled: true" wasd-controls="acceleration: 25" fov="75"></a-camera>
+  </a-entity>
+</a-scene>
+
+<script>
+let sceneActive = false;
+let scansComplete = 0;
+let dataMB = 0;
+let sessionId = '';
+let animFrame = null;
+
+// ENTER WORLD
+document.getElementById('enter-btn').addEventListener('click', function() {
+  sessionId = 'USR-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+  document.getElementById('session-id').textContent = sessionId;
+
+  document.getElementById('intro').classList.add('fade-out');
+  setTimeout(() => {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('scene').style.display = 'block';
+    document.getElementById('hud').classList.add('visible');
+    document.getElementById('ticker').classList.add('visible');
+    document.getElementById('hint').classList.add('visible');
+    sceneActive = true;
+    startDataCounter();
+    setupClicks();
+  }, 1000);
+});
+
+// DATA COUNTER
+function startDataCounter() {
+  setInterval(() => {
+    dataMB += 0.03 + Math.random() * 0.05;
+    document.getElementById('data-mb').textContent = dataMB.toFixed(1);
+  }, 500);
+}
+
+// SETUP CLICKS
+function setupClicks() {
+  const scene = document.getElementById('scene');
+  
+  const setupDoors = () => {
+    const doors = document.querySelectorAll('.door');
+    doors.forEach(door => {
+      door.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const room = door.getAttribute('data-room');
+        openRoom(room);
+      });
+    });
+  };
+
+  if (scene.hasLoaded) {
+    setupDoors();
+  } else {
+    scene.addEventListener('loaded', setupDoors);
+  }
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (!sceneActive) return;
+    if (e.key === '1') openRoom('A');
+    if (e.key === '2') openRoom('B');
+    if (e.key === '3') openRoom('C');
+    if (e.key === 'Escape') closeRoom();
+  });
+}
+
+// ROOM DATA
+const rooms = {
+  A: {
+    name: 'UNIT A — 192.168.1.12',
+    data: 'PROFILES: 2 ADULTS · BEHAVIOR: LEISURE/SOCIAL · DATA BUYERS: 31',
+    tags: [
+      { text: 'HEART RATE EST: 88BPM', x: 5, y: 5 },
+      { text: 'MUSIC PREF: JAZZ', x: 60, y: 5 },
+      { text: 'MOTION: DANCE', x: 5, y: 90 },
+      { text: 'COUPLES 25-35', x: 55, y: 90 },
+    ],
+    ads: [
+      { text: 'Spotify Premium\nYour music, tracked', x: 70, y: 20, color: '#1db954' },
+      { text: 'Jewelry\nYou deserve this', x: 70, y: 60, color: '#ff1493' },
+    ],
+    draw: drawRoomA
+  },
+  B: {
+    name: 'UNIT B — 192.168.1.7',
+    data: 'PROFILES: 2 ADULTS 2 MINORS · BEHAVIOR: MEAL TIME · DATA BUYERS: 47',
+    tags: [
+      { text: 'OCCUPANCY: 4', x: 5, y: 5 },
+      { text: 'MEAL TIME: 18:47', x: 60, y: 5 },
+      { text: 'INCOME: MIDDLE', x: 5, y: 90 },
+      { text: 'MINORS: AGE ~8', x: 55, y: 90 },
+    ],
+    ads: [
+      { text: 'Instacart\nGroceries tracked', x: 70, y: 20, color: '#f97316' },
+      { text: 'Life Insurance\nProtect them', x: 70, y: 60, color: '#00ffff' },
+    ],
+    draw: drawRoomB
+  },
+  C: {
+    name: 'UNIT C — 192.168.1.21',
+    data: 'PROFILES: 1 MINOR · BEHAVIOR: GAMING · DATA BUYERS: 19',
+    tags: [
+      { text: 'MINOR: ~10 YRS', x: 5, y: 5 },
+      { text: 'SCREEN TIME: 4.2HRS', x: 58, y: 5 },
+      { text: 'GAME PREF: FPS', x: 5, y: 90 },
+      { text: 'COPPA VIOLATION', x: 58, y: 90 },
+    ],
+    ads: [
+      { text: 'Xbox Game Pass\nWe know your games', x: 70, y: 20, color: '#107c10' },
+      { text: 'Energy Drink\nFor gamers', x: 70, y: 60, color: '#ff0000' },
+    ],
+    draw: drawRoomC
+  }
+};
+
+// OPEN ROOM
+function openRoom(id) {
+  const room = rooms[id];
+  if (!room) return;
+
+  document.getElementById('room-name').textContent = room.name;
+  document.getElementById('room-data').textContent = room.data;
+  document.getElementById('room-panel').classList.add('visible');
+
+  const canvas = document.getElementById('room-canvas');
+  const stage = canvas.parentElement;
+
+  setTimeout(() => {
+    canvas.width = stage.clientWidth;
+    canvas.height = stage.clientHeight;
+
+    stage.querySelectorAll('.data-tag, .ad-banner').forEach(e => e.remove());
+
+    room.tags.forEach(tag => {
+      const el = document.createElement('div');
+      el.className = 'data-tag';
+      el.style.left = tag.x + '%';
+      el.style.top = tag.y + '%';
+      el.textContent = tag.text;
+      stage.appendChild(el);
+    });
+
+    room.ads.forEach(ad => {
+      const el = document.createElement('div');
+      el.className = 'ad-banner';
+      el.style.left = ad.x + '%';
+      el.style.top = ad.y + '%';
+      el.style.borderColor = ad.color + '88';
+      el.style.color = ad.color;
+      el.innerHTML = '<span class="label">TARGETED AD</span>' + ad.text;
+      stage.appendChild(el);
+    });
+
+    scansComplete = Math.min(3, scansComplete + 1);
+    document.getElementById('scan-count').textContent = scansComplete;
+
+    if (animFrame) cancelAnimationFrame(animFrame);
+    room.draw(canvas);
+  }, 50);
+
+  if (document.exitPointerLock) document.exitPointerLock();
+}
+
+// CLOSE ROOM
+function closeRoom() {
+  document.getElementById('room-panel').classList.remove('visible');
+  if (animFrame) cancelAnimationFrame(animFrame);
+}
+
+document.getElementById('back-btn').addEventListener('click', closeRoom);
+
+// DRAW FUNCTIONS
+function drawRoomA(canvas) {
+  const ctx = canvas.getContext('2d');
+  let t = 0;
+  function frame() {
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = '#0a0818';
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = 'rgba(255,200,60,0.2)';
+    ctx.fillRect(0, 0, w*0.4, h*0.4);
+
+    ctx.strokeStyle = 'rgba(0,200,255,0.3)'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(w*0.1, h*0.6, w*0.25, h*0.2);
+    ctx.strokeRect(w*0.5, h*0.5, w*0.3, h*0.25);
+
+    ctx.fillStyle = 'rgba(0,255,255,0.8)';
+    ctx.beginPath(); ctx.arc(w*0.25, h*0.75, h*0.08, 0, Math.PI*2); ctx.fill();
+    ctx.fillText('PERSON_01', w*0.25, h*0.87);
+
+    ctx.fillStyle = 'rgba(255,64,255,0.8)';
+    ctx.beginPath(); ctx.arc(w*0.65, h*0.75, h*0.08, 0, Math.PI*2); ctx.fill();
+    ctx.fillText('PERSON_02', w*0.65, h*0.87);
+
+    ctx.font = '20px serif';
+    ctx.fillStyle = `rgba(255,180,80,${0.5 + 0.3*Math.sin(t*0.05)})`;
+    ctx.fillText('♪', w*0.4 + Math.sin(t*0.05)*20, h*0.4 - (t*1) % (h*0.3));
+
+    drawOverlay(ctx, w, h);
+    t++;
+    animFrame = requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawRoomB(canvas) {
+  const ctx = canvas.getContext('2d');
+  let t = 0;
+  function frame() {
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = '#080a14';
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = 'rgba(255,220,100,0.2)';
+    ctx.beginPath(); ctx.arc(w*0.5, h*0.1, w*0.3, 0, Math.PI*2); ctx.fill();
+
+    ctx.strokeStyle = 'rgba(0,180,255,0.4)'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(w*0.2, h*0.55, w*0.6, h*0.25);
+
+    const people = [
+      { x: w*0.25, c: '#00ffff' },
+      { x: w*0.40, c: '#00ffff' },
+      { x: w*0.55, c: '#ffaa00' },
+      { x: w*0.70, c: '#ffaa00' }
+    ];
+
+    people.forEach((p, i) => {
+      ctx.fillStyle = p.c + 'cc';
+      ctx.beginPath(); ctx.arc(p.x, h*0.5 + Math.sin(t*0.05+i)*3, h*0.08, 0, Math.PI*2); ctx.fill();
+      ctx.fillText('PERSON_0' + (i+1), p.x - 20, h*0.75);
+    });
+
+    drawOverlay(ctx, w, h);
+    t++;
+    animFrame = requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawRoomC(canvas) {
+  const ctx = canvas.getContext('2d');
+  let t = 0;
+  function frame() {
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = '#06030e';
+    ctx.fillRect(0, 0, w, h);
+
+    const flicker = 0.85 + 0.15*Math.sin(t*0.15);
+    ctx.fillStyle = `rgba(80,40,200,${0.4*flicker})`;
+    ctx.fillRect(w*0.35, h*0.2, w*0.35, h*0.35);
+    ctx.strokeStyle = `rgba(100,60,255,${0.8*flicker})`; ctx.lineWidth = 2;
+    ctx.strokeRect(w*0.35, h*0.2, w*0.35, h*0.35);
+
+    ctx.strokeStyle = 'rgba(0,160,255,0.3)'; ctx.lineWidth = 1.2;
+    ctx.strokeRect(w*0.25, h*0.55, w*0.5, h*0.15);
+
+    ctx.fillStyle = '#6080ff';
+    ctx.beginPath(); ctx.arc(w*0.45, h*0.75, h*0.07, 0, Math.PI*2); ctx.fill();
+    ctx.fillText('GAMER', w*0.45 - 15, h*0.88);
+
+    drawOverlay(ctx, w, h);
+    t++;
+    animFrame = requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawOverlay(ctx, w, h) {
+  ctx.fillStyle = 'rgba(0,255,255,0.02)';
+  for (let y = 0; y < h; y += 4) ctx.fillRect(0, y, w, 2);
+
+  const vign = ctx.createRadialGradient(w/2, h/2, h*0.2, w/2, h/2, h*0.8);
+  vign.addColorStop(0, 'rgba(0,0,0,0)');
+  vign.addColorStop(1, 'rgba(0,0,10,0.7)');
+  ctx.fillStyle = vign;
+  ctx.fillRect(0, 0, w, h);
+}
+</script>
+
+</body>
+</html>
